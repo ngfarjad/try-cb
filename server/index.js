@@ -1,18 +1,27 @@
 'use strict';
 
-var bearerToken = require('express-bearer-token');
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var couchbase = require('couchbase');
-var express = require('express');
-var jwt = require('jsonwebtoken');
+require('dotenv').config()
+const { user, pass } = process.env
+/*  Add `.env` file to root of server use */
+/* 
+  user=username
+  pass=password
+*/
 
-var JWT_KEY = 'IAMSOSECRETIVE!';
+const bearerToken = require('express-bearer-token');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const couchbase = require('couchbase');
+const express = require('express');
+const jwt = require('jsonwebtoken');
 
-var cluster = new couchbase.Cluster('couchbase://localhost');
-var bucket = cluster.openBucket('travel-sample');
+const JWT_KEY = 'IAMSOSECRETIVE!';
 
-var app = express();
+const cluster = new couchbase.Cluster('couchbase://localhost');
+      cluster.authenticate(user, pass)
+const bucket = cluster.openBucket('travel-sample');
+
+const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 

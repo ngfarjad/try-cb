@@ -1,8 +1,16 @@
-var couchbase = require('couchbase')
-var cluster = new couchbase.Cluster('couchbase://localhost/');
-cluster.authenticate('Administrator', '123456');
-var bucket = cluster.openBucket('travel-sample');
-var N1qlQuery = couchbase.N1qlQuery;
+require('dotenv').config()
+const { user, pass } = process.env
+/*  Add `.env` file to root of server use */
+/* 
+  user=username
+  pass=password
+*/
+
+const couchbase = require('couchbase')
+const cluster = new couchbase.Cluster('couchbase://localhost/');
+cluster.authenticate(user, pass);
+const bucket = cluster.openBucket('travel-sample');
+const N1qlQuery = couchbase.N1qlQuery;
 
 bucket.manager().createPrimaryIndex(function() {
   bucket.upsert('user:king_arthur', {
