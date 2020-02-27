@@ -18,8 +18,9 @@ const jwt = require('jsonwebtoken');
 const JWT_KEY = 'IAMSOSECRETIVE!';
 
 const cluster = new couchbase.Cluster('couchbase://localhost');
-      cluster.authenticate(user, pass)
+      cluster.authenticate("Administrator", "123456")
 const bucket = cluster.openBucket('travel-sample');
+bucket.operationTimeout = 120 * 1000;
 
 const app = express();
 app.use(cors());
@@ -45,6 +46,10 @@ function authUser(req, res, next) {
 }
 
 app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+app.get('/test', function (req, res) {
   res.send('Hello World!');
 });
 
